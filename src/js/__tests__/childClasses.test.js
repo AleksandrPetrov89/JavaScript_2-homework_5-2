@@ -8,7 +8,7 @@ test.each([
   ['Zombie', 40, 10, 'I', 'IvanIvan001', 23, 'B'],
   ['Daemon', 10, 40, 'I', 'IvanIvan001', 23, 'B'],
 ])(
-  ('Проверка класса Bowman'),
+  ('Проверка класса %s'),
   (type, attack, defence, errorName1, errorName2, errorName3, errorType) => {
     const character = new Classes[type]('Ivan');
     expect(character.level).toBe(1);

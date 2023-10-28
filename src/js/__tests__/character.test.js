@@ -50,3 +50,24 @@ test('Проверка присвоения уровня жизни и перс�
   expect(character.level).toBe(1);
   expect(character.health).toBe(100);
 });
+
+test.each([
+  ['Bowman', 30, 30],
+  ['Swordsman', 48, 12],
+  ['Magician', 12, 48],
+  ['Undead', 30, 30],
+  ['Zombie', 48, 12],
+  ['Daemon', 12, 48],
+])(
+  ('Проверка работы метода levelUp() у типа %s'),
+  (type, attack, defence) => {
+    const character = new Character('Ivan', type);
+    character.health = 1;
+    character.levelUp();
+    expect(character.attack).toBe(attack);
+    expect(character.defence).toBe(defence);
+    character.health = 0;
+    const mistake = () => character.levelUp();
+    expect(mistake).toThrow(new Error('Повысить уровень нельзя! Персонаж мертв!'));
+  },
+);
