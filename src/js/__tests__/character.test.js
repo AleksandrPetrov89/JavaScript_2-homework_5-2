@@ -66,8 +66,27 @@ test.each([
     character.levelUp();
     expect(character.attack).toBe(attack);
     expect(character.defence).toBe(defence);
+    expect(character.health).toBe(100);
     character.health = 0;
     const mistake = () => character.levelUp();
     expect(mistake).toThrow(new Error('Повысить уровень нельзя! Персонаж мертв!'));
+  },
+);
+
+test.each([
+  ['Bowman', 25],
+  ['Swordsman', 10],
+  ['Magician', 40],
+  ['Undead', 25],
+  ['Zombie', 10],
+  ['Daemon', 40],
+])(
+  ('Проверка работы метода damage() у типа %s'),
+  (type, health) => {
+    const character = new Character('Ivan', type);
+    character.damage(100);
+    expect(character.health).toBe(health);
+    character.damage(200);
+    expect(character.health).toBe(0);
   },
 );
