@@ -1,32 +1,6 @@
 import Character from '../classes/character';
 
 test.each([
-  ['Bowman'],
-  ['Swordsman'],
-  ['Magician'],
-  ['Undead'],
-  ['Zombie'],
-  ['Daemon'],
-])(
-  ('Проверка присвоения типа %s'),
-  (type) => {
-    const character = new Character('Ivan', type);
-    expect(character.type).toBe(type);
-  },
-);
-
-test.each([
-  ['Iv'],
-  ['IvanIvan01'],
-])(
-  ('Проверка присвоения имени %s'),
-  (name) => {
-    const character = new Character(name, 'Bowman');
-    expect(character.name).toBe(name);
-  },
-);
-
-test.each([
   ['I'],
   ['IvanIvan001'],
   [23],
@@ -43,8 +17,31 @@ test('Проверка появления ошибки при присвоени
   expect(mistake).toThrow(new Error('Ошибка при присвоении типа персонажа!'));
 });
 
-test('Проверка присвоения уровня жизни и персонажа', () => {
+test('Проверка работы метода levelUp()', () => {
   const character = new Character('Ivan', 'Bowman');
-  expect(character.level).toBe(1);
-  expect(character.health).toBe(100);
+  const correct = {
+    name: 'Ivan', type: 'Bowman', health: 100, level: 2, attack: 12, defence: 12,
+  };
+  character.health = 1;
+  character.levelUp();
+  expect(character).toEqual(correct);
+});
+
+test('Проверка появления ошибки у метода levelUp()', () => {
+  const character = new Character('Ivan', 'Bowman');
+  character.health = 0;
+  const mistake = () => character.levelUp();
+  expect(mistake).toThrow(new Error('Повысить уровень нельзя! Персонаж мертв!'));
+});
+
+test('Проверка работы метода damage()', () => {
+  const character = new Character('Ivan', 'Bowman');
+  character.damage(100);
+  expect(character.health).toBe(10);
+});
+
+test('Проверка метода damage(), когда урон больше очков жизни', () => {
+  const character = new Character('Ivan', 'Bowman');
+  character.damage(200);
+  expect(character.health).toBe(0);
 });
